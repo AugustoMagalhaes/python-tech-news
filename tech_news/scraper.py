@@ -52,6 +52,7 @@ def scrape_noticia(html_str):
     f_locals = locals()
     var_list = ("url", "title", "timestamp", "writer", "comments_count",
                 "summary", "tags", "category")
+    # https://stackoverflow.com/questions/28722869/does-python-support-object-literal-property-value-shorthand-a-la-ecmascript-6
     scrape_dict = ({var: f_locals[var] for var in var_list})
 
     return scrape_dict
