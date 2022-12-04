@@ -16,9 +16,7 @@ def fetch(url):
         if status_code != 200:
             raise requests.HTTPError
         return response.text
-    except requests.HTTPError:
-        return None
-    except requests.ReadTimeout:
+    except (requests.HTTPError, requests.ReadTimeout):
         return None
 
 
