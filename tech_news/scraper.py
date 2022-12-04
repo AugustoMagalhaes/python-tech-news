@@ -25,7 +25,7 @@ def fetch(url):
 def scrape_novidades(html_str):
     parsel_selector = Selector(html_str)
     links_list = parsel_selector.css(".entry-title a::attr(href)").getall()
-
+    print("uai: ", parsel_selector)
     return links_list
 
 
@@ -38,8 +38,23 @@ def scrape_next_page_link(html_str):
 
 
 # Requisito 4
-def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+def scrape_noticia(html_str):
+    ps = Selector(html_str)
+    url = ps.css("link[rel=canonical]::attr(href)").get()
+    title = ps.css(".entry-title::text").get().strip()
+    timestamp = ps.css(".meta-date::text").get()
+    writer = ps.css(".author a::text").get()
+    comments_count = len(ps.css(".comment").getall())
+    summary = ps.xpath("string(//p)").get().strip()
+    tags = ps.css(".post-tags a::text").getall()
+    category = ps.css(".meta-category .label::text").get()
+
+    f_locals = locals()
+    var_list = ("url", "title", "timestamp", "writer", "comments_count",
+                "summary", "tags", "category")
+    scrape_dict = ({var: f_locals[var] for var in var_list})
+
+    return scrape_dict
 
 
 # Requisito 5
