@@ -1,3 +1,5 @@
+import datetime as dt
+
 from tech_news.database import search_news
 
 
@@ -14,7 +16,18 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    # https://www.geeksforgeeks.org/fromisoformat-function-of-datetime-date-class-in-python/
+    try:
+        formatted_date = dt.datetime.fromisoformat(date).strftime("%d/%m/%Y")
+        query_result = search_news({"timestamp": formatted_date})
+        title_and_urls = []
+
+        for element in query_result:
+            title_and_urls.append((element["title"], element["url"]))
+        return title_and_urls
+
+    except ValueError:
+        raise ValueError("Data inválida")
 
 
 # Requisito 8
